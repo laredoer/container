@@ -150,10 +150,10 @@ func WithMQ(resourceName string) Op {
 	}
 }
 
-func WithLark[L LarkNode](hookAddr string) Op {
+func WithLark[L LarkNode]() Op {
 	return func(c *_Container) {
 		var l L
-		do.OverrideNamedValue(c.injector, larkNode+l.GetLarkNode(), feishu.New(hookAddr))
+		do.OverrideNamedValue(c.injector, larkNode+l.GetLarkNode(), feishu.New(l.HookAddr()))
 	}
 }
 

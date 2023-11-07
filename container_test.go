@@ -28,16 +28,35 @@ func (l LarkReward) GetLarkNode() string {
 	return "reward"
 }
 
+func (l LarkReward) HookAddr() string {
+	return "https://open.feishu.cn/open-apis/message/v4/send/"
+}
+
 type LarkActivity struct{}
 
 func (l LarkActivity) GetLarkNode() string {
 	return "activity"
 }
 
+func (l LarkActivity) HookAddr() string {
+	return "https://open.feishu.cn/open-apis/message/v4/send/"
+}
+
 type CronReward struct{}
 
 func (c CronReward) GetCronNode() string {
 	return "reward"
+}
+
+type NewStockSubscriptionNotice struct {
+	Env       string `json:"env"`
+	StockCode string `json:"stock_code"`
+	StockName string `json:"stock_name"`
+	Num       int    `json:"num"`
+}
+
+func (NewStockSubscriptionNotice) TemplateID() string {
+	return "ctp_AA6DpuzqFcyG"
 }
 
 func TestContainer(t *testing.T) {
@@ -93,9 +112,16 @@ func TestContainer(t *testing.T) {
 
 		Convey("Test Lark", func() {
 			New(
-				WithLark[LarkReward]("https://open.feishu.cn/open-apis/bot/v2/hook/2714a5fb-07a4-4ca8-8b72-265cddec5385"),
-				WithLark[LarkActivity]("https://open.feishu.cn/open-apis/bot/v2/hook/b42f3768-2695-4a9c-978e-abbd151dc1fc"),
+				WithLark[LarkReward](),
+				WithLark[LarkActivity](),
 			)
+
+			CardNotify[LarkActivity](NewStockSubscriptionNotice{
+				Env:       "test",
+				StockCode: "007",
+				StockName: "test",
+				Num:       1,
+			})
 		})
 
 		Convey("Test Cron", func() {
