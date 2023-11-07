@@ -18,7 +18,9 @@ import (
 	client "github.com/micro/go-micro/client"
 	"github.com/robfig/cron/v3"
 	"github.com/samber/do"
+	"github.com/sony/sonyflake"
 	workflowClient "go.temporal.io/sdk/client"
+	"golang.org/x/exp/constraints"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -29,11 +31,13 @@ var container *_Container
 type _Container struct {
 	injector *do.Injector
 	client   client.Client
+	*sonyflake.Sonyflake
 }
 
 func New(ops ...Op) {
 	container = &_Container{
-		injector: do.New(),
+		injector:  do.New(),
+		Sonyflake: sonyflake.NewSonyflake(sonyflake.Settings{}),
 	}
 
 	for _, op := range ops {
@@ -177,4 +181,9 @@ func Close() {
 	if mqCli != nil {
 		mqCli.close()
 	}
+}
+
+func NextID[T constraints.Integer]() T {
+	id, _ := container.NextID()
+	return T(id)
 }

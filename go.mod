@@ -20,7 +20,9 @@ require (
 	github.com/samber/do v1.6.0
 	github.com/shopspring/decimal v1.3.1
 	github.com/smartystreets/goconvey v1.8.1
+	github.com/sony/sonyflake v1.2.0
 	go.temporal.io/sdk v1.25.1
+	golang.org/x/exp v0.0.0-20220827204233-334a2380cb91
 	gorm.io/driver/postgres v1.5.4
 	gorm.io/gorm v1.25.5
 )
