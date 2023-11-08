@@ -772,8 +772,8 @@ git.5th.im/lb-public/gear/config v0.1.2/go.mod h1:io+fSbgfUJGBfCql96Luu+hgPPo0iE
 git.5th.im/lb-public/gear/config v0.3.0 h1:5AaOdrWDetOpsu2ngcIS9zPKgyuCoTiMsOYf84sk7EY=
 git.5th.im/lb-public/gear/config v0.3.0/go.mod h1:OQbaUSssXFZb2vLUi3GgZ+8PBkcRgtWvHUQrzKMvx+s=
 git.5th.im/lb-public/gear/db v0.3.3/go.mod h1:y/W6LoMjncjw/UdsXK2GI+P70lyCOVIatT+CdXMSbFo=
-git.5th.im/lb-public/gear/db v0.10.4 h1:rVDWtp0kHPvnkcfHohWr9c4D30nmOVSrjkQw1dMWDG0=
-git.5th.im/lb-public/gear/db v0.10.4/go.mod h1:womJ3nogzNQ9hCVICxH04YuFMo2GLFYlE53TWsnlF1w=
+git.5th.im/lb-public/gear/db v0.9.11 h1:wyYMe9oHiTBujAS5jSY92HIVGXEHp1XW/0VXvo1cr7s=
+git.5th.im/lb-public/gear/db v0.9.11/go.mod h1:oxGjieZ6T35/y0llDzrgo8aBMlyygvnlbTnSnvGwW9M=
 git.5th.im/lb-public/gear/dynamo v0.1.2 h1:030HU23SYTQyGahalT2uekI82QrXO9tC1Pi2ZBpHLDo=
 git.5th.im/lb-public/gear/dynamo v0.1.2/go.mod h1:XXC0sRFdcv4ay0nIb80di2sqmrkzdqtbuZ1GURG6bng=
 git.5th.im/lb-public/gear/event v0.1.2 h1:IeKk2weSjKNk/9kX5mDV45r6B0xUlafpCZ6Ktf4w+DY=

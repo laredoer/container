@@ -7,7 +7,7 @@ replace github.com/nsqio/go-nsq => git.5th.im/long-bridge-core-system/go-nsq v0.
 require (
 	git.5th.im/lb-public/gear v1.13.1
 	git.5th.im/lb-public/gear/cache v0.3.0
-	git.5th.im/lb-public/gear/db v0.10.4
+	git.5th.im/lb-public/gear/db v0.9.11
 	git.5th.im/lb-public/gear/event v0.1.2
 	git.5th.im/lb-public/gear/log v1.8.0
 	git.5th.im/lb-public/gear/mq v0.5.3
