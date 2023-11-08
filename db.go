@@ -24,7 +24,7 @@ func GetDB[T DB](ctx context.Context) *gorm.DB {
 		log.Panicf("GetDB %s err:%v", t.GetDBName(), err)
 	}
 
-	return v.WithContext(ctx)
+	return v.WithContext(ctx).Debug()
 }
 
 // ProcessWithPagination processes the query with pagination.
