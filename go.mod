@@ -6,7 +6,7 @@ replace github.com/nsqio/go-nsq => git.5th.im/long-bridge-core-system/go-nsq v0.
 
 require (
 	git.5th.im/lb-public/gear v1.13.1
-	git.5th.im/lb-public/gear/cache v0.4.1
+	git.5th.im/lb-public/gear/cache v0.3.0
 	git.5th.im/lb-public/gear/db v0.10.4
 	git.5th.im/lb-public/gear/event v0.1.2
 	git.5th.im/lb-public/gear/log v1.8.0
@@ -18,6 +18,7 @@ require (
 	github.com/micro/go-micro v1.7.0
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/samber/do v1.6.0
+	github.com/samber/lo v1.38.1
 	github.com/shopspring/decimal v1.3.1
 	github.com/smartystreets/goconvey v1.8.1
 	github.com/sony/sonyflake v1.2.0
@@ -142,7 +143,6 @@ require (
 	github.com/rabbitmq/amqp091-go v1.8.0 // indirect
 	github.com/robfig/cron v1.2.0 // indirect
 	github.com/ryanuber/go-glob v1.0.0 // indirect
-	github.com/samber/lo v1.38.1 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/shirou/gopsutil v3.21.11+incompatible // indirect
 	github.com/smacker/opentracing-gorm v0.0.0-20181207094635-cd4974441042 // indirect
