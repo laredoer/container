@@ -11,6 +11,7 @@ import (
 	"git.5th.im/lb-public/gear/log"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/samber/do"
+	"github.com/samber/lo"
 )
 
 const larkNode = "LarkNode-"
@@ -41,9 +42,13 @@ type Template interface {
 	TemplateID() string
 }
 
-func CardNotify[L LarkNode, T Template](template T) {
+func CardNotify[L LarkNode, T Template](template T, env ...string) {
 
-	if !gear.Env.IsProd() {
+	if len(env) != 0 && !lo.Contains(env, gear.Env.String()) {
+		return
+	}
+
+	if len(env) == 0 && !gear.Env.IsProd() {
 		return
 	}
 

@@ -142,6 +142,7 @@ require (
 	github.com/rabbitmq/amqp091-go v1.8.0 // indirect
 	github.com/robfig/cron v1.2.0 // indirect
 	github.com/ryanuber/go-glob v1.0.0 // indirect
+	github.com/samber/lo v1.38.1 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/shirou/gopsutil v3.21.11+incompatible // indirect
 	github.com/smacker/opentracing-gorm v0.0.0-20181207094635-cd4974441042 // indirect
