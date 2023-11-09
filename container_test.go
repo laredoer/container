@@ -39,7 +39,7 @@ func (l LarkActivity) GetLarkNode() string {
 }
 
 func (l LarkActivity) HookAddr() string {
-	return "https://open.feishu.cn/open-apis/message/v4/send/"
+	return "https://open.feishu.cn/open-apis/bot/v2/hook/2714a5fb-07a4-4ca8-8b72-265cddec5385"
 }
 
 type CronReward struct{}
@@ -112,7 +112,6 @@ func TestContainer(t *testing.T) {
 
 		Convey("Test Lark", func() {
 			New(
-				WithLark[LarkReward](),
 				WithLark[LarkActivity](),
 			)
 
