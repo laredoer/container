@@ -39,7 +39,7 @@ func (l LarkActivity) GetLarkNode() string {
 }
 
 func (l LarkActivity) HookAddr() string {
-	return "https://open.feishu.cn/open-apis/bot/v2/hook/2714a5fb-07a4-4ca8-8b72-265cddec5385"
+	return "https://open.feishu.cn/open-apis/bot/v2/hook/4696b4ad-c9d9-4f30-b147-aa94fe6b74a4"
 }
 
 type CronReward struct{}
@@ -48,15 +48,21 @@ func (c CronReward) GetCronNode() string {
 	return "reward"
 }
 
-type NewStockSubscriptionNotice struct {
-	Env       string `json:"env"`
-	StockCode string `json:"stock_code"`
-	StockName string `json:"stock_name"`
-	Num       int    `json:"num"`
+type ActivityAgg struct {
+	ID   string `json:"id"`
+	Code string `json:"code"`
+	Name string `json:"name"`
+	Num  string `json:"num"`
 }
 
-func (NewStockSubscriptionNotice) TemplateID() string {
-	return "ctp_AA6DpuzqFcyG"
+type ActivityRewardCount struct {
+	Env  string         `json:"env"`
+	Date string         `json:"date"`
+	List []*ActivityAgg `json:"list"`
+}
+
+func (ActivityRewardCount) TemplateID() string {
+	return "ctp_AA85XZHdHbcz"
 }
 
 func TestContainer(t *testing.T) {
@@ -115,11 +121,23 @@ func TestContainer(t *testing.T) {
 				WithLark[LarkActivity](),
 			)
 
-			CardNotify[LarkActivity](NewStockSubscriptionNotice{
-				Env:       "test",
-				StockCode: "007",
-				StockName: "test",
-				Num:       1,
+			CardNotify[LarkActivity](ActivityRewardCount{
+				Env:  "test",
+				Date: "2023-11-08",
+				List: []*ActivityAgg{
+					{
+						ID:   "1",
+						Code: "code1",
+						Name: "name1",
+						Num:  "1",
+					},
+					{
+						ID:   "1",
+						Code: "code2",
+						Name: "name2",
+						Num:  "2",
+					},
+				},
 			})
 		})
 

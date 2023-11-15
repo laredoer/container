@@ -163,3 +163,13 @@ func GetRate(currency Currency) decimal.Decimal {
 func Init(f func() (map[Currency]decimal.Decimal, error)) {
 	r.fn = f
 }
+
+// 检查汇率是否存在
+func CheckRate(currency Currency) bool {
+	_, ok := r.defaultRates[currency]
+	if !ok {
+		_, ok = r.base[currency]
+		return ok
+	}
+	return ok
+}

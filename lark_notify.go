@@ -2,6 +2,7 @@ package container
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 	"strings"
 	"time"
@@ -68,6 +69,13 @@ func CardNotify[L LarkNode, T Template](template T) {
 		return
 	}
 	defer resp.Body.Close()
+
+	resBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Errorf("send feishu message %v: %v", jsonMsg, err)
+		return
+	}
+	log.Infof("resBody %s", resBody)
 
 	if resp.StatusCode != http.StatusOK {
 		log.Errorf("request feishu webhook fail: %s, message: %s", resp.Status, jsonMsg)
