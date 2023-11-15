@@ -81,14 +81,14 @@ func (m *mqClient) newConsumer(resourceName string, processor rabbitconsumer.Pro
 	m.consumerMap[resourceName] = consumer
 }
 
-type Processor interface {
+type Processor[T interface{ ~[]byte }] interface {
 	rabbitconsumer.ContextProcessor | rabbitconsumer.Processor |
-		func(ctx context.Context, msg []byte, headers map[string]interface{}) error |
-		func(msg []byte, headers map[string]interface{}) error
+		func(ctx context.Context, msg T, headers map[string]interface{}) error |
+		func(msg T, headers map[string]interface{}) error
 }
 
 // RegisterConsumer 注册消费者
-func RegisterConsumer[F Processor](mqResourceName string, processor F) {
+func RegisterConsumer[T interface{ ~[]byte }, F Processor[T]](mqResourceName string, processor F) {
 	if mqCli == nil {
 		log.Panicf("MQClient Not Init mqResourceName:%s", mqResourceName)
 	}
@@ -96,12 +96,16 @@ func RegisterConsumer[F Processor](mqResourceName string, processor F) {
 	switch f := any(processor).(type) {
 	case rabbitconsumer.ContextProcessor:
 		mqCli.newContextConsumer(mqResourceName, f)
-	case func(ctx context.Context, msg []byte, headers map[string]interface{}) error:
-		mqCli.newContextConsumer(mqResourceName, f)
+	case func(ctx context.Context, msg T, headers map[string]interface{}) error:
+		mqCli.newContextConsumer(mqResourceName, rabbitconsumer.ContextProcessor(func(ctx context.Context, msg []byte, headers map[string]interface{}) error {
+			return f(ctx, msg, headers)
+		}))
 	case rabbitconsumer.Processor:
 		mqCli.newConsumer(mqResourceName, f)
-	case func(msg []byte, headers map[string]interface{}) error:
-		mqCli.newConsumer(mqResourceName, f)
+	case func(msg T, headers map[string]interface{}) error:
+		mqCli.newConsumer(mqResourceName, rabbitconsumer.Processor(func(msg []byte, headers map[string]interface{}) error {
+			return f(msg, headers)
+		}))
 	}
 }
 
