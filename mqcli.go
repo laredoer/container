@@ -24,6 +24,7 @@ type mqClient struct {
 	rabbitmq    *rabbitcli.RabbitMQClient
 	producerMap map[string]*producerCache
 	consumerMap map[string]mq.Consumer
+	isTestMode  bool
 }
 
 type producerCache struct {
@@ -53,14 +54,43 @@ func (m *mqClient) checkProducerCache() {
 	}
 }
 
+type testProducer struct {
+	ResourceName string
+}
+
+// Close implements mq.Producer.
+func (t *testProducer) Close() {
+	log.Infof("testProducer %s close", t.ResourceName)
+}
+
+// Health implements mq.Producer.
+func (t *testProducer) Health() bool {
+	return true
+}
+
+// Publish implements mq.Producer.
+func (t *testProducer) Publish(ctx context.Context, msg *mq.Message) error {
+	log.Infof("testProducer %s publish: ", t.ResourceName, string(msg.Body))
+	return nil
+}
+
 // 从缓存获取 producer
 func (m *mqClient) getProducer(resourceName string) mq.Producer {
 	m.Lock()
 	defer m.Unlock()
 	pcache, has := m.producerMap[resourceName]
 	if !has {
+		var producer mq.Producer
+		if !m.isTestMode {
+			producer = rabbitmq.NewProducerFromConfig(m.rabbitmq, resourceName)
+		} else {
+			producer = &testProducer{
+				ResourceName: resourceName,
+			}
+		}
+
 		pcache = &producerCache{
-			producer: rabbitmq.NewProducerFromConfig(m.rabbitmq, resourceName),
+			producer: producer,
 		}
 		m.producerMap[resourceName] = pcache
 	}
@@ -68,15 +98,50 @@ func (m *mqClient) getProducer(resourceName string) mq.Producer {
 	return pcache.producer
 }
 
+type testComsumer struct {
+	ResourceName string
+}
+
+// Close implements mq.Consumer.
+func (t *testComsumer) Close() {
+	log.Infof("testComsumer %s close", t.ResourceName)
+}
+
+// Health implements mq.Consumer.
+func (t *testComsumer) Health() bool {
+	return true
+}
+
+// Start implements mq.Consumer.
+func (t *testComsumer) Start() {
+	log.Infof("testComsumer %s start", t.ResourceName)
+}
+
 // 消费 message
 func (m *mqClient) newContextConsumer(resourceName string, processor rabbitconsumer.ContextProcessor) {
-	consumer := rabbitmq.NewConsumerFromConfig(m.rabbitmq, resourceName, processor)
+
+	var consumer mq.Consumer
+	if !m.isTestMode {
+		consumer = rabbitmq.NewConsumerFromConfig(m.rabbitmq, resourceName, processor)
+	} else {
+		consumer = &testComsumer{
+			ResourceName: resourceName,
+		}
+	}
+
 	consumer.Start()
 	m.consumerMap[resourceName] = consumer
 }
 
 func (m *mqClient) newConsumer(resourceName string, processor rabbitconsumer.Processor) {
-	consumer := rabbitmq.NewConsumerFromConfig(m.rabbitmq, resourceName, processor)
+	var consumer mq.Consumer
+	if !m.isTestMode {
+		consumer = rabbitmq.NewConsumerFromConfig(m.rabbitmq, resourceName, processor)
+	} else {
+		consumer = &testComsumer{
+			ResourceName: resourceName,
+		}
+	}
 	consumer.Start()
 	m.consumerMap[resourceName] = consumer
 }

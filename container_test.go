@@ -155,6 +155,18 @@ func TestContainer(t *testing.T) {
 			})
 		})
 
-	})
+		Convey("Test MQ", func() {
+			New(
+				WithTestMQ(),
+			)
 
+			type Body []byte
+			Convey("Register", func() {
+				RegisterConsumer[Body]("AccountOpen", func(body Body, headers map[string]interface{}) error {
+					log.Info("AccountOpen", string(body))
+					return nil
+				})
+			})
+		})
+	})
 }

@@ -150,6 +150,17 @@ func WithMQ(resourceName string) Op {
 	}
 }
 
+func WithTestMQ() Op {
+	return func(c *_Container) {
+		mqCli = &mqClient{
+			producerMap: make(map[string]*producerCache),
+			consumerMap: make(map[string]mq.Consumer),
+			isTestMode:  true,
+		}
+		go mqCli.checkProducerCache()
+	}
+}
+
 func WithLark[L LarkNode]() Op {
 	return func(c *_Container) {
 		var l L
