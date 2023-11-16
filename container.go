@@ -16,6 +16,7 @@ import (
 	"github.com/alicebob/miniredis"
 	"github.com/go-redis/redis/v8"
 	client "github.com/micro/go-micro/client"
+	gocache "github.com/patrickmn/go-cache"
 	"github.com/robfig/cron/v3"
 	"github.com/samber/do"
 	"github.com/sony/sonyflake"
@@ -184,6 +185,13 @@ func WithEvent(rn string) Op {
 
 	return func(c *_Container) {
 		do.OverrideNamedValue(c.injector, eventNode, evt)
+	}
+}
+
+func WithLocalCache() Op {
+	return func(c *_Container) {
+		cache := gocache.New(5*time.Minute, 10*time.Minute)
+		do.OverrideNamedValue(c.injector, localCacheNode, cache)
 	}
 }
 

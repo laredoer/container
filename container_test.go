@@ -39,7 +39,7 @@ func (l LarkActivity) GetLarkNode() string {
 }
 
 func (l LarkActivity) HookAddr() string {
-	return "https://open.feishu.cn/open-apis/bot/v2/hook/4696b4ad-c9d9-4f30-b147-aa94fe6b74a4"
+	return "https://open.feishu.cn/open-apis/message/v4/send/"
 }
 
 type CronReward struct{}
@@ -165,6 +165,37 @@ func TestContainer(t *testing.T) {
 				RegisterConsumer[Body]("AccountOpen", func(body Body, headers map[string]interface{}) error {
 					log.Info("AccountOpen", string(body))
 					return nil
+				})
+			})
+		})
+
+		Convey("Test LocalCache", func() {
+			New(
+				WithLocalCache(),
+			)
+
+			Convey("LocalCache set get", func() {
+				Convey("String set get", func() {
+					SetLocalCache("key1", "value1", time.Second*3)
+					v, ok := GetLocalCache[string]("key1")
+					So(ok, ShouldBeTrue)
+					So(v, ShouldEqual, "value1")
+				})
+				Convey("Struct set get", func() {
+					SetLocalCache("key3", ActivityAgg{
+						ID:   "1",
+						Code: "code",
+						Name: "name",
+						Num:  "1",
+					}, time.Second*3)
+					v3, ok := GetLocalCache[ActivityAgg]("key3")
+					So(ok, ShouldBeTrue)
+					So(v3, ShouldEqual, ActivityAgg{
+						ID:   "1",
+						Code: "code",
+						Name: "name",
+						Num:  "1",
+					})
 				})
 			})
 		})

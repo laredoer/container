@@ -115,6 +115,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/nsqio/go-nsq v0.0.0-00010101000000-000000000000 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
+	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/paulmach/orb v0.7.1 // indirect
 	github.com/pborman/uuid v1.2.1 // indirect
 	github.com/pierrec/lz4 v2.0.5+incompatible // indirect
