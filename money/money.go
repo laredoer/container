@@ -2,7 +2,9 @@ package money
 
 import (
 	"fmt"
+	"time"
 
+	"git.5th.im/lb-public/gear/log"
 	"github.com/shopspring/decimal"
 )
 
@@ -162,6 +164,19 @@ func GetRate(currency Currency) decimal.Decimal {
 
 func Init(f func() (map[Currency]decimal.Decimal, error)) {
 	r.fn = f
+	// 定时获取汇率
+	go func() {
+		t := time.NewTicker(time.Minute * 10)
+		for {
+			<-t.C
+			rateMap, err := r.fn()
+			if err != nil {
+				log.Errorf("get rate err:%v", err)
+				continue
+			}
+			r.base = rateMap
+		}
+	}()
 }
 
 // 检查汇率是否存在

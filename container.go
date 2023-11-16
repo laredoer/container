@@ -15,7 +15,7 @@ import (
 	"git.5th.im/lb-public/gear/mq/rabbitmq"
 	"github.com/alicebob/miniredis"
 	"github.com/go-redis/redis/v8"
-	client "github.com/micro/go-micro/client"
+	"github.com/micro/go-micro/client"
 	gocache "github.com/patrickmn/go-cache"
 	"github.com/robfig/cron/v3"
 	"github.com/samber/do"
@@ -137,6 +137,12 @@ func WithTemporal(hostPort string) Op {
 		}
 
 		do.OverrideNamedValue(c.injector, temporal, wcli)
+	}
+}
+
+func WithTestTemporal() Op {
+	return func(c *_Container) {
+		do.OverrideNamedValue(c.injector, temporal, workflowClient.Client(&testWorkflow{}))
 	}
 }
 

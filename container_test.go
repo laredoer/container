@@ -10,6 +10,7 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/robfig/cron/v3"
 	. "github.com/smartystreets/goconvey/convey"
+	"go.temporal.io/sdk/client"
 )
 
 type Reward struct{}
@@ -160,12 +161,18 @@ func TestContainer(t *testing.T) {
 				WithTestMQ(),
 			)
 
-			type Body []byte
 			Convey("Register", func() {
-				RegisterConsumer[Body]("AccountOpen", func(body Body, headers map[string]interface{}) error {
+				RegisterConsumer("AccountOpen", func(body []byte, headers map[string]interface{}) error {
 					log.Info("AccountOpen", string(body))
 					return nil
 				})
+			})
+
+			Convey("Push", func() {
+				So(func() {
+					SendQueueMessage(context.Background(), "test-push", nil, ActivityAgg{})
+				}, ShouldNotPanic)
+
 			})
 		})
 
@@ -199,5 +206,20 @@ func TestContainer(t *testing.T) {
 				})
 			})
 		})
+
+		Convey("Test temporal", func() {
+			New(WithTestTemporal())
+			Convey("Test temporal workflow", func() {
+				So(func() {
+					Workflow().ExecuteWorkflow(context.Background(),
+						client.StartWorkflowOptions{
+							TaskQueue: "Test_Task_Queue",
+						},
+						func() {},
+					)
+				}, ShouldNotPanic)
+			})
+		})
+
 	})
 }
