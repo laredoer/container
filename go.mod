@@ -10,15 +10,15 @@ require (
 	git.5th.im/lb-public/gear/db v0.9.11
 	git.5th.im/lb-public/gear/event v0.1.2
 	git.5th.im/lb-public/gear/log v1.8.0
-	git.5th.im/lb-public/gear/mq v0.5.3
+	git.5th.im/lb-public/gear/mq v0.6.0
 	github.com/DATA-DOG/go-sqlmock v1.5.0
 	github.com/alicebob/miniredis v2.5.0+incompatible
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/json-iterator/go v1.1.12
 	github.com/micro/go-micro v1.7.0
+	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/samber/do v1.6.0
-	github.com/samber/lo v1.38.1
 	github.com/shopspring/decimal v1.3.1
 	github.com/smartystreets/goconvey v1.8.1
 	github.com/sony/sonyflake v1.2.0
@@ -115,7 +115,6 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/nsqio/go-nsq v0.0.0-00010101000000-000000000000 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
-	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/paulmach/orb v0.7.1 // indirect
 	github.com/pborman/uuid v1.2.1 // indirect
 	github.com/pierrec/lz4 v2.0.5+incompatible // indirect

@@ -795,8 +795,8 @@ git.5th.im/lb-public/gear/metrics v0.2.3/go.mod h1:6zVpV4Fa9Aoa+BlJdWL8nndOepbbF
 git.5th.im/lb-public/gear/metrics v0.2.4 h1:6Vs9pMNip0sb5NdWWp7ZeVwJgaePDLmPMX10Yi1hMFQ=
 git.5th.im/lb-public/gear/metrics v0.2.4/go.mod h1:L45t5rchS6bnEISY3Rg79cmderiN/yZniPlNdSflNrI=
 git.5th.im/lb-public/gear/mq v0.1.1/go.mod h1:B9FoQ8tCwHNIwnSxiP5XpoJpKO46C5kliBCcLkUDK+I=
-git.5th.im/lb-public/gear/mq v0.5.3 h1:bI84ZibvuCu36/iJFxoZ0bZ97XULsk7mdGwfONfiRvQ=
-git.5th.im/lb-public/gear/mq v0.5.3/go.mod h1:R4OUONJPR62karakPZneTf3NTTjdlyObSG5UyRihi7c=
+git.5th.im/lb-public/gear/mq v0.6.0 h1:Pv7ijctDrM5H81x2j5g/xsaMGMs8Fjzc68EwscunkSM=
+git.5th.im/lb-public/gear/mq v0.6.0/go.mod h1:IvUXI8q8J6PGJfteNjlXJIWtBHEZbsxzsupcDbqDYCk=
 git.5th.im/lb-public/gear/runtime v0.0.0-20220105104051-55a301eabfed/go.mod h1:hHxmu9Gg6VCVsAEO9T7Xe5RPay2DIlJyi/13aaII9iM=
 git.5th.im/lb-public/gear/runtime v0.1.0/go.mod h1:hHxmu9Gg6VCVsAEO9T7Xe5RPay2DIlJyi/13aaII9iM=
 git.5th.im/lb-public/gear/runtime v0.2.2 h1:W+jHNLuToOpGJ4v3U8eLd3WdQdUEcIXng9iheF7tXtE=
@@ -1658,8 +1658,6 @@ github.com/ryanuber/go-glob v1.0.0 h1:iQh3xXAumdQ+4Ufa5b25cRpC5TYKlno6hsv6Cb3pkB
 github.com/ryanuber/go-glob v1.0.0/go.mod h1:807d1WSdnB0XRJzKNil9Om6lcp/3a0v4qIHxIXzX/Yc=
 github.com/samber/do v1.6.0 h1:Jy/N++BXINDB6lAx5wBlbpHlUdl0FKpLWgGEV9YWqaU=
 github.com/samber/do v1.6.0/go.mod h1:DWqBvumy8dyb2vEnYZE7D7zaVEB64J45B0NjTlY/M4k=
-github.com/samber/lo v1.38.1 h1:j2XEAqXKb09Am4ebOg31SpvzUTTs6EN3VfgeLUhPdXM=
-github.com/samber/lo v1.38.1/go.mod h1:+m/ZKRl6ClXCE2Lgf3MsQlWfh4bn1bz6CXEOxnEXnEA=
 github.com/satori/go.uuid v1.2.0/go.mod h1:dA0hQrYB0VpLJoorglMZABFdXlWrHn1NEOzdhQKdks0=
 github.com/sean-/seed v0.0.0-20170313163322-e2103e2c3529/go.mod h1:DxrIzT+xaE7yg65j358z/aeFdxmN0P9QXhEzd20vsDc=
 github.com/seccomp/libseccomp-golang v0.9.1/go.mod h1:GbW5+tmTXfcxTToHLXlScSlAvWlF4P2Ca7zGrPiEpWo=

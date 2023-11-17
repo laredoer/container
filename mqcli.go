@@ -118,11 +118,11 @@ func (t *testComsumer) Start() {
 }
 
 // 消费 message
-func (m *mqClient) newContextConsumer(resourceName string, processor rabbitconsumer.ContextProcessor) {
+func (m *mqClient) newContextConsumer(resourceName string, processor rabbitconsumer.ContextProcessor, opts ...rabbitconsumer.Option) {
 
 	var consumer mq.Consumer
 	if !m.isTestMode {
-		consumer = rabbitmq.NewConsumerFromConfig(m.rabbitmq, resourceName, processor)
+		consumer = rabbitmq.NewConsumerFromConfig(m.rabbitmq, resourceName, processor, opts...)
 	} else {
 		consumer = &testComsumer{
 			ResourceName: resourceName,
@@ -133,10 +133,10 @@ func (m *mqClient) newContextConsumer(resourceName string, processor rabbitconsu
 	m.consumerMap[resourceName] = consumer
 }
 
-func (m *mqClient) newConsumer(resourceName string, processor rabbitconsumer.Processor) {
+func (m *mqClient) newConsumer(resourceName string, processor rabbitconsumer.Processor, opts ...rabbitconsumer.Option) {
 	var consumer mq.Consumer
 	if !m.isTestMode {
-		consumer = rabbitmq.NewConsumerFromConfig(m.rabbitmq, resourceName, processor)
+		consumer = rabbitmq.NewConsumerFromConfig(m.rabbitmq, resourceName, processor, opts...)
 	} else {
 		consumer = &testComsumer{
 			ResourceName: resourceName,
@@ -153,20 +153,20 @@ type Processor interface {
 }
 
 // RegisterConsumer 注册消费者
-func RegisterConsumer[F Processor](mqResourceName string, processor F) {
+func RegisterConsumer[F Processor](mqResourceName string, processor F, opts ...rabbitconsumer.Option) {
 	if mqCli == nil {
 		log.Panicf("MQClient Not Init mqResourceName:%s", mqResourceName)
 	}
 
 	switch f := any(processor).(type) {
 	case rabbitconsumer.ContextProcessor:
-		mqCli.newContextConsumer(mqResourceName, f)
+		mqCli.newContextConsumer(mqResourceName, f, opts...)
 	case func(ctx context.Context, msg []byte, headers map[string]interface{}) error:
-		mqCli.newContextConsumer(mqResourceName, f)
+		mqCli.newContextConsumer(mqResourceName, f, opts...)
 	case rabbitconsumer.Processor:
-		mqCli.newConsumer(mqResourceName, f)
+		mqCli.newConsumer(mqResourceName, f, opts...)
 	case func(msg []byte, headers map[string]interface{}) error:
-		mqCli.newConsumer(mqResourceName, f)
+		mqCli.newConsumer(mqResourceName, f, opts...)
 	}
 }
 

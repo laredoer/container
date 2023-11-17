@@ -7,7 +7,9 @@ import (
 	"time"
 
 	"git.5th.im/lb-public/gear/log"
+	"git.5th.im/lb-public/gear/mq/rabbitconsumer"
 	"github.com/DATA-DOG/go-sqlmock"
+	amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/robfig/cron/v3"
 	. "github.com/smartystreets/goconvey/convey"
 	"go.temporal.io/sdk/client"
@@ -165,7 +167,11 @@ func TestContainer(t *testing.T) {
 				RegisterConsumer("AccountOpen", func(body []byte, headers map[string]interface{}) error {
 					log.Info("AccountOpen", string(body))
 					return nil
-				})
+				}, rabbitconsumer.WithPreHooks(func(ctx context.Context, msg amqp.Delivery) (requeue bool, err error) {
+					msg.Headers["body"] = string(msg.Body)
+					log.Infof("AccountOpen pre hook %s", msg.Body)
+					return
+				}))
 			})
 
 			Convey("Push", func() {
