@@ -795,8 +795,8 @@ git.5th.im/lb-public/gear/metrics v0.2.3/go.mod h1:6zVpV4Fa9Aoa+BlJdWL8nndOepbbF
 git.5th.im/lb-public/gear/metrics v0.2.4 h1:6Vs9pMNip0sb5NdWWp7ZeVwJgaePDLmPMX10Yi1hMFQ=
 git.5th.im/lb-public/gear/metrics v0.2.4/go.mod h1:L45t5rchS6bnEISY3Rg79cmderiN/yZniPlNdSflNrI=
 git.5th.im/lb-public/gear/mq v0.1.1/go.mod h1:B9FoQ8tCwHNIwnSxiP5XpoJpKO46C5kliBCcLkUDK+I=
-git.5th.im/lb-public/gear/mq v0.6.0 h1:Pv7ijctDrM5H81x2j5g/xsaMGMs8Fjzc68EwscunkSM=
-git.5th.im/lb-public/gear/mq v0.6.0/go.mod h1:IvUXI8q8J6PGJfteNjlXJIWtBHEZbsxzsupcDbqDYCk=
+git.5th.im/lb-public/gear/mq v0.7.0 h1:eunLQmTyX465xX5bs+zDsyTKGPfXTb2XkRBfFN2lWFk=
+git.5th.im/lb-public/gear/mq v0.7.0/go.mod h1:IvUXI8q8J6PGJfteNjlXJIWtBHEZbsxzsupcDbqDYCk=
 git.5th.im/lb-public/gear/runtime v0.0.0-20220105104051-55a301eabfed/go.mod h1:hHxmu9Gg6VCVsAEO9T7Xe5RPay2DIlJyi/13aaII9iM=
 git.5th.im/lb-public/gear/runtime v0.1.0/go.mod h1:hHxmu9Gg6VCVsAEO9T7Xe5RPay2DIlJyi/13aaII9iM=
 git.5th.im/lb-public/gear/runtime v0.2.2 h1:W+jHNLuToOpGJ4v3U8eLd3WdQdUEcIXng9iheF7tXtE=

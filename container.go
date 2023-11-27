@@ -5,7 +5,6 @@ import (
 
 	"time"
 
-	"git.5th.im/lb-public/gear"
 	"git.5th.im/lb-public/gear/cache"
 	db "git.5th.im/lb-public/gear/db/v2"
 	"git.5th.im/lb-public/gear/event"
@@ -20,7 +19,7 @@ import (
 	"github.com/robfig/cron/v3"
 	"github.com/samber/do"
 	"github.com/sony/sonyflake"
-	workflowClient "go.temporal.io/sdk/client"
+	
 	"golang.org/x/exp/constraints"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -119,30 +118,6 @@ func WithTestRedis(prefix string) Op {
 func WithClient(client client.Client) Op {
 	return func(c *_Container) {
 		c.client = client
-	}
-}
-
-func WithTemporal(hostPort string) Op {
-	return func(c *_Container) {
-		clientOptions := workflowClient.Options{
-			HostPort: hostPort,
-		}
-		if gear.Env.IsDev() {
-			clientOptions.HostPort = "127.0.0.1:7233"
-		}
-
-		wcli, err := workflowClient.Dial(clientOptions)
-		if err != nil {
-			log.Fatalf("failed new workflow client err: %s", err)
-		}
-
-		do.OverrideNamedValue(c.injector, temporal, wcli)
-	}
-}
-
-func WithTestTemporal() Op {
-	return func(c *_Container) {
-		do.OverrideNamedValue(c.injector, temporal, workflowClient.Client(&testWorkflow{}))
 	}
 }
 

@@ -10,13 +10,14 @@ require (
 	git.5th.im/lb-public/gear/db v0.9.11
 	git.5th.im/lb-public/gear/event v0.1.2
 	git.5th.im/lb-public/gear/log v1.8.0
-	git.5th.im/lb-public/gear/mq v0.6.0
+	git.5th.im/lb-public/gear/mq v0.7.0
 	github.com/DATA-DOG/go-sqlmock v1.5.0
 	github.com/alicebob/miniredis v2.5.0+incompatible
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/json-iterator/go v1.1.12
 	github.com/micro/go-micro v1.7.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
+	github.com/rabbitmq/amqp091-go v1.8.0
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/samber/do v1.6.0
 	github.com/shopspring/decimal v1.3.1
@@ -126,7 +127,6 @@ require (
 	github.com/prometheus/client_model v0.3.0 // indirect
 	github.com/prometheus/common v0.32.1 // indirect
 	github.com/prometheus/procfs v0.7.3 // indirect
-	github.com/rabbitmq/amqp091-go v1.8.0 // indirect
 	github.com/robfig/cron v1.2.0 // indirect
 	github.com/ryanuber/go-glob v1.0.0 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
