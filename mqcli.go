@@ -5,7 +5,6 @@ import (
 	"context"
 
 	"sync"
-	"time"
 
 	"git.5th.im/lb-public/gear/mq/rabbitmq"
 	jsoniter "github.com/json-iterator/go"
@@ -28,31 +27,10 @@ type mqClient struct {
 }
 
 type producerCache struct {
-	expireTime int64
-	producer   mq.Producer
+	producer mq.Producer
 }
 
 const expireDuration = 10 * 60 // 缓存 10m
-
-// 5m ticker
-func (m *mqClient) checkProducerCache() {
-	c := time.Tick(time.Minute * 5)
-	for next := range c {
-		now := next.Unix()
-		for k, v := range m.producerMap {
-			if v.expireTime >= now {
-				continue
-			}
-			m.Lock()
-			if v.expireTime < now { // 二次判断
-				delete(m.producerMap, k)
-			}
-			m.Unlock()
-			v.producer.Close() // unlock 之后 close
-			log.Info("close producer: ", k)
-		}
-	}
-}
 
 type testProducer struct {
 	ResourceName string
@@ -94,7 +72,6 @@ func (m *mqClient) getProducer(resourceName string) mq.Producer {
 		}
 		m.producerMap[resourceName] = pcache
 	}
-	pcache.expireTime = time.Now().Unix() + expireDuration
 	return pcache.producer
 }
 
