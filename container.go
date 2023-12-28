@@ -19,7 +19,7 @@ import (
 	"github.com/robfig/cron/v3"
 	"github.com/samber/do"
 	"github.com/sony/sonyflake"
-	
+
 	"golang.org/x/exp/constraints"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -128,7 +128,6 @@ func WithMQ(resourceName string) Op {
 			producerMap: make(map[string]*producerCache),
 			consumerMap: make(map[string]mq.Consumer),
 		}
-		go mqCli.checkProducerCache()
 	}
 }
 
@@ -139,7 +138,6 @@ func WithTestMQ() Op {
 			consumerMap: make(map[string]mq.Consumer),
 			isTestMode:  true,
 		}
-		go mqCli.checkProducerCache()
 	}
 }
 
