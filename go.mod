@@ -7,7 +7,7 @@ replace github.com/nsqio/go-nsq => git.5th.im/long-bridge-core-system/go-nsq v0.
 require (
 	git.5th.im/lb-public/gear v1.13.1
 	git.5th.im/lb-public/gear/cache v0.3.0
-	git.5th.im/lb-public/gear/db v0.9.11
+	git.5th.im/lb-public/gear/db v0.11.0
 	git.5th.im/lb-public/gear/event v0.1.2
 	git.5th.im/lb-public/gear/log v1.8.0
 	git.5th.im/lb-public/gear/mq v0.7.0
@@ -26,7 +26,7 @@ require (
 	go.temporal.io/sdk v1.25.1
 	golang.org/x/exp v0.0.0-20220827204233-334a2380cb91
 	gorm.io/driver/postgres v1.4.5
-	gorm.io/gorm v1.24.2
+	gorm.io/gorm v1.25.2
 )
 
 require (
@@ -34,14 +34,14 @@ require (
 	git.5th.im/lb-public/gear/cfg v0.7.3 // indirect
 	git.5th.im/lb-public/gear/config v0.2.4 // indirect
 	git.5th.im/lb-public/gear/dynamo v0.1.2 // indirect
-	git.5th.im/lb-public/gear/goroutine v0.2.4 // indirect
+	git.5th.im/lb-public/gear/goroutine v0.4.0 // indirect
 	git.5th.im/lb-public/gear/k8s v0.2.0 // indirect
 	git.5th.im/lb-public/gear/metrics v0.2.4 // indirect
 	git.5th.im/lb-public/gear/runtime v0.2.2 // indirect
 	git.5th.im/lb-public/gear/sentinel v0.1.0 // indirect
 	git.5th.im/lb-public/gear/sftpclient v0.1.0 // indirect
 	git.5th.im/lb-public/gear/trace v0.2.0 // indirect
-	git.5th.im/lb-public/gear/util v0.4.13 // indirect
+	git.5th.im/lb-public/gear/util v0.4.20 // indirect
 	github.com/BurntSushi/toml v0.3.1 // indirect
 	github.com/ClickHouse/ch-go v0.48.0 // indirect
 	github.com/ClickHouse/clickhouse-go/v2 v2.3.0 // indirect
@@ -64,7 +64,7 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-redis/redis/extra/rediscmd/v8 v8.11.5 // indirect
-	github.com/go-sql-driver/mysql v1.6.0 // indirect
+	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/gogo/googleapis v1.4.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/gogo/status v1.1.1 // indirect
@@ -149,8 +149,9 @@ require (
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/yuin/gopher-lua v0.0.0-20210529063254-f4c35e4016d9 // indirect
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
-	go.opentelemetry.io/otel v1.10.0 // indirect
-	go.opentelemetry.io/otel/trace v1.10.0 // indirect
+	go.opentelemetry.io/contrib/propagators/jaeger v1.15.0 // indirect
+	go.opentelemetry.io/otel v1.14.0 // indirect
+	go.opentelemetry.io/otel/trace v1.14.0 // indirect
 	go.temporal.io/api v1.24.0 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
