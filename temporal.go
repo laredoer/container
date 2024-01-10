@@ -8,6 +8,7 @@ import (
 
 	"github.com/samber/do"
 	"go.temporal.io/sdk/client"
+	"go.temporal.io/sdk/workflow"
 )
 
 const temporal = "Temporal"
@@ -15,7 +16,8 @@ const temporal = "Temporal"
 func WithTemporal(hostPort string) Op {
 	return func(c *_Container) {
 		clientOptions := client.Options{
-			HostPort: hostPort,
+			HostPort:           hostPort,
+			ContextPropagators: []workflow.ContextPropagator{newContextPropagator()},
 		}
 		if gear.Env.IsDev() {
 			clientOptions.HostPort = "127.0.0.1:7233"

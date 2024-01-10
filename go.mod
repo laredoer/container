@@ -24,6 +24,7 @@ require (
 	github.com/smartystreets/goconvey v1.8.1
 	github.com/sony/sonyflake v1.2.0
 	go.temporal.io/sdk v1.25.1
+	go.temporal.io/sdk/contrib/opentracing v0.2.0
 	golang.org/x/exp v0.0.0-20220827204233-334a2380cb91
 	gorm.io/driver/postgres v1.4.5
 	gorm.io/gorm v1.25.2
