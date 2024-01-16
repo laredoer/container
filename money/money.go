@@ -88,6 +88,16 @@ func (m Money) GreaterThan(om Money) bool {
 	return mUSD.Value.GreaterThan(omUSD.Value)
 }
 
+// GreaterThanOrEqual 判断是否大于
+func (m Money) GreaterThanOrEqual(om Money) bool {
+	if m.SameCurrency(om) {
+		return m.Value.GreaterThanOrEqual(om.Value)
+	}
+	mUSD := toUSD(m)
+	omUSD := toUSD(om)
+	return mUSD.Value.GreaterThanOrEqual(omUSD.Value)
+}
+
 // LessThan 判断是否小于
 func (m Money) LessThan(om Money) bool {
 
@@ -164,6 +174,12 @@ func GetRate(currency Currency) decimal.Decimal {
 
 func Init(f func() (map[Currency]decimal.Decimal, error)) {
 	r.fn = f
+	rateMap, err := r.fn()
+	if err != nil {
+		log.Errorf("get rate err:%v", err)
+	}
+	r.base = rateMap
+
 	// 定时获取汇率
 	go func() {
 		t := time.NewTicker(time.Minute * 10)
