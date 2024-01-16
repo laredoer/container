@@ -177,8 +177,9 @@ func Init(f func() (map[Currency]decimal.Decimal, error)) {
 	rateMap, err := r.fn()
 	if err != nil {
 		log.Errorf("get rate err:%v", err)
+	} else {
+		r.base = rateMap
 	}
-	r.base = rateMap
 
 	// 定时获取汇率
 	go func() {
