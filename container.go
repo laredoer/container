@@ -12,6 +12,7 @@ import (
 	"git.5th.im/lb-public/gear/log"
 	"git.5th.im/lb-public/gear/mq"
 	"git.5th.im/lb-public/gear/mq/rabbitmq"
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/alicebob/miniredis"
 	"github.com/go-redis/redis/v8"
 	"github.com/micro/go-micro/client"
@@ -54,23 +55,24 @@ func WithDB[T DB]() Op {
 	return func(c *_Container) {
 		switch dialect {
 		case "mysql":
-			do.OverrideNamedValue(c.injector, resourceName, db.NewMySQLFromConfig(resourceName))
+			do.OverrideNamedValue(c.injector, resourceName, newStandardDB(db.NewMySQLFromConfig(resourceName), nil))
 		case "postgres":
-			do.OverrideNamedValue(c.injector, resourceName, db.NewPGFromConfig(resourceName))
+			do.OverrideNamedValue(c.injector, resourceName, newStandardDB(db.NewPGFromConfig(resourceName), nil))
 		}
 	}
 }
 
-func WithTestDB[T DB](d *sql.DB) Op {
+func WithTestDB[T DB]() Op {
 	var t T
 	resourceName := t.GetDBName()
 	dialect := t.GetDialect()
 	return func(c *_Container) {
+		mockDB, sqlMock, _ := sqlmock.New()
 		switch dialect {
 		case "mysql":
-			do.OverrideNamedValue(c.injector, resourceName, &db.DB{DB: getMockGorm(d)})
+			do.OverrideNamedValue(c.injector, resourceName, newStandardDB(&db.DB{DB: getMockGorm(mockDB)}, sqlMock))
 		case "postgres":
-			do.OverrideNamedValue(c.injector, resourceName, &db.DB{DB: getMockGorm(d)})
+			do.OverrideNamedValue(c.injector, resourceName, newStandardDB(&db.DB{DB: getMockGorm(mockDB)}, sqlMock))
 		}
 	}
 }

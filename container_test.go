@@ -8,7 +8,6 @@ import (
 
 	"git.5th.im/lb-public/gear/log"
 	"git.5th.im/lb-public/gear/mq/rabbitconsumer"
-	"github.com/DATA-DOG/go-sqlmock"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/robfig/cron/v3"
 	. "github.com/smartystreets/goconvey/convey"
@@ -73,11 +72,21 @@ func TestContainer(t *testing.T) {
 	Convey("TestContainer", t, func() {
 
 		Convey("TestGetDB", func() {
-			mockRewardDB, _, _ := sqlmock.New()
-			New(WithTestDB[Reward](mockRewardDB))
+			New(WithTestDB[Reward]())
 			Convey("GetDB result is not nil", func() {
 				db := GetDB[Reward](context.Background())
 				So(db, ShouldNotBeNil)
+
+				sqlmock := SQLMock[Reward]()
+				So(sqlmock, ShouldNotBeNil)
+
+				RefreshSQLMock[Reward]()
+
+				sqlmock2 := SQLMock[Reward]()
+				So(sqlmock2, ShouldNotBeNil)
+
+				So(sqlmock, ShouldNotEqual, sqlmock2)
+
 			})
 		})
 

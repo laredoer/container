@@ -7,6 +7,7 @@ import (
 
 	db "git.5th.im/lb-public/gear/db/v2"
 	"git.5th.im/lb-public/gear/log"
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/samber/do"
 	"gorm.io/gorm"
 )
@@ -16,15 +17,50 @@ type DB interface {
 	GetDialect() string
 }
 
+type standardDB struct {
+	*db.DB
+	sqlmock sqlmock.Sqlmock
+}
+
+func newStandardDB(db *db.DB, sqlmock sqlmock.Sqlmock) standardDB {
+	return standardDB{
+		DB:      db,
+		sqlmock: sqlmock,
+	}
+}
+
 // GetDB get db
 func GetDB[T DB](ctx context.Context) *gorm.DB {
 	var t T
-	v, err := do.InvokeNamed[*db.DB](container.injector, t.GetDBName())
+	v, err := do.InvokeNamed[standardDB](container.injector, t.GetDBName())
 	if err != nil {
 		log.Panicf("GetDB %s err:%v", t.GetDBName(), err)
 	}
 
 	return v.WithContext(ctx).Debug()
+}
+
+func SQLMock[T DB]() sqlmock.Sqlmock {
+	var t T
+	v, err := do.InvokeNamed[standardDB](container.injector, t.GetDBName())
+	if err != nil {
+		log.Panicf("GetDB %s err:%v", t.GetDBName(), err)
+	}
+
+	return v.sqlmock
+}
+
+func RefreshSQLMock[T DB]() {
+	var t T
+	resourceName := t.GetDBName()
+	dialect := t.GetDialect()
+	mockDB, sqlMock, _ := sqlmock.New()
+	switch dialect {
+	case "mysql":
+		do.OverrideNamedValue(container.injector, resourceName, newStandardDB(&db.DB{DB: getMockGorm(mockDB)}, sqlMock))
+	case "postgres":
+		do.OverrideNamedValue(container.injector, resourceName, newStandardDB(&db.DB{DB: getMockGorm(mockDB)}, sqlMock))
+	}
 }
 
 // ProcessWithPagination processes the query with pagination.
