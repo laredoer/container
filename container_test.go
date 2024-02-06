@@ -3,11 +3,13 @@ package container
 import (
 	"context"
 	"fmt"
+	"os"
 	"testing"
 	"time"
 
 	"git.5th.im/lb-public/gear/log"
 	"git.5th.im/lb-public/gear/mq/rabbitconsumer"
+	"github.com/DATA-DOG/go-sqlmock"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/robfig/cron/v3"
 	. "github.com/smartystreets/goconvey/convey"
@@ -67,6 +69,13 @@ func (ActivityRewardCount) TemplateID() string {
 	return "ctp_AA85XZHdHbcz"
 }
 
+func TestMain(m *testing.M) {
+	SuppressConsoleStatistics()
+	result := m.Run()
+	PrintConsoleStatistics()
+	os.Exit(result)
+}
+
 func TestContainer(t *testing.T) {
 
 	Convey("TestContainer", t, func() {
@@ -88,6 +97,28 @@ func TestContainer(t *testing.T) {
 				So(sqlmock, ShouldNotEqual, sqlmock2)
 
 			})
+		})
+
+		Convey("TestProcessWithPagination", func() {
+			New(WithTestDB[Reward]())
+
+			db := GetDB[Reward](context.Background())
+			So(db, ShouldNotBeNil)
+
+			SQLMock[Reward]().ExpectQuery("SELECT(.*)").WillReturnRows(
+				sqlmock.NewRows([]string{"id"}).AddRow(1),
+			)
+
+			type User struct {
+				Id int
+			}
+
+			err := ProcessWithPagination(db.Where("id in(?)", 1, 2), 10, func(rows *User) error {
+				return nil
+			})
+
+			So(err, ShouldBeNil)
+
 		})
 
 		Convey("Test Redis", func() {

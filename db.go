@@ -87,6 +87,11 @@ func ProcessWithPagination[T any](query *gorm.DB, pageSize int, processFunc func
 				continue
 			}
 		}
+
+		if len(records) < pageSize {
+			break
+		}
+
 		page++
 	}
 
