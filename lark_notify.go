@@ -43,6 +43,11 @@ type Template interface {
 }
 
 func CardNotify[L LarkNode, T Template](template T) {
+
+	if !gear.Env.IsProd() {
+		return
+	}
+
 	data := map[string]any{
 		"msg_type": "interactive",
 		"card": map[string]any{
