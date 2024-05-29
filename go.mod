@@ -6,8 +6,8 @@ replace github.com/nsqio/go-nsq => git.5th.im/long-bridge-core-system/go-nsq v0.
 
 require (
 	git.5th.im/lb-public/gear v1.13.1
-	git.5th.im/lb-public/gear/cache v0.4.1
-	git.5th.im/lb-public/gear/db v0.11.2
+	git.5th.im/lb-public/gear/cache v0.5.0
+	git.5th.im/lb-public/gear/db v0.12.0
 	git.5th.im/lb-public/gear/event v0.1.2
 	git.5th.im/lb-public/gear/log v1.8.0
 	git.5th.im/lb-public/gear/mq v0.9.0
@@ -32,16 +32,15 @@ require (
 require (
 	git.5th.im/lb-public/gear/aws v0.1.0 // indirect
 	git.5th.im/lb-public/gear/cfg v0.7.3 // indirect
-	git.5th.im/lb-public/gear/config v0.3.0 // indirect
+	git.5th.im/lb-public/gear/config v0.5.0 // indirect
 	git.5th.im/lb-public/gear/dynamo v0.1.2 // indirect
 	git.5th.im/lb-public/gear/goroutine v0.4.0 // indirect
-	git.5th.im/lb-public/gear/k8s v0.2.0 // indirect
 	git.5th.im/lb-public/gear/metrics v0.2.4 // indirect
-	git.5th.im/lb-public/gear/runtime v0.2.2 // indirect
+	git.5th.im/lb-public/gear/runtime v0.2.3 // indirect
 	git.5th.im/lb-public/gear/sentinel v0.1.0 // indirect
 	git.5th.im/lb-public/gear/sftpclient v0.1.0 // indirect
 	git.5th.im/lb-public/gear/trace v0.2.0 // indirect
-	git.5th.im/lb-public/gear/util v0.4.20 // indirect
+	git.5th.im/lb-public/gear/util v0.6.0 // indirect
 	github.com/BurntSushi/toml v0.3.1 // indirect
 	github.com/ClickHouse/ch-go v0.48.0 // indirect
 	github.com/ClickHouse/clickhouse-go/v2 v2.3.0 // indirect
@@ -52,7 +51,7 @@ require (
 	github.com/armon/go-radix v1.0.0 // indirect
 	github.com/aws/aws-sdk-go v1.39.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/bitly/go-simplejson v0.5.0 // indirect
+	github.com/bitly/go-simplejson v0.5.1 // indirect
 	github.com/cenkalti/backoff/v3 v3.0.0 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
@@ -168,7 +167,7 @@ require (
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/yuin/gopher-lua v0.0.0-20210529063254-f4c35e4016d9 // indirect
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
-	go.opentelemetry.io/contrib/propagators/jaeger v1.15.0 // indirect
+	go.opentelemetry.io/contrib/propagators/jaeger v1.24.0 // indirect
 	go.opentelemetry.io/otel v1.24.0 // indirect
 	go.opentelemetry.io/otel/metric v1.24.0 // indirect
 	go.opentelemetry.io/otel/trace v1.24.0 // indirect
@@ -179,7 +178,7 @@ require (
 	golang.org/x/crypto v0.14.0 // indirect
 	golang.org/x/net v0.14.0 // indirect
 	golang.org/x/sync v0.2.0 // indirect
-	golang.org/x/sys v0.13.0 // indirect
+	golang.org/x/sys v0.17.0 // indirect
 	golang.org/x/text v0.13.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
