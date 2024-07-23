@@ -2,28 +2,63 @@ package money
 
 import (
 	"fmt"
+	"sync"
 	"time"
 
 	"git.5th.im/lb-public/gear/log"
 	"github.com/shopspring/decimal"
+	"gorm.io/gorm"
 )
 
 // 基准货币为美元
 
-type rates struct {
-	defaultRates map[Currency]decimal.Decimal // 默认汇率
-	base         map[Currency]decimal.Decimal // 系统汇率
-	fn           func() (map[Currency]decimal.Decimal, error)
+var r *exchangeRates
+
+type exchangeRates struct {
+	Rates map[Currency]decimal.Decimal
+	mu    sync.RWMutex
 }
 
-var r = &rates{
-	defaultRates: map[Currency]decimal.Decimal{
-		USD: decimal.NewFromFloat(1),
-		HKD: decimal.NewFromFloat(7.8),
-		SGD: decimal.NewFromFloat(1.35),
-		CNY: decimal.NewFromFloat(7.3),
-	},
-	base: map[Currency]decimal.Decimal{},
+func (e *exchangeRates) UpdateRates(db *gorm.DB) error {
+	e.mu.Lock()
+	defer e.mu.Unlock()
+
+	type rate struct {
+		CurrencyCode    Currency        `gorm:"column:currency_code"`
+		UsdExchangeRate decimal.Decimal `gorm:"column:usd_exchange_rate"`
+	}
+
+	var rates []rate
+	if err := db.Raw(
+		"SELECT * FROM ads_exchange_rate_d WHERE dt = (SELECT MAX(dt) FROM ads_exchange_rate_d LIMIT 1)").
+		Scan(&rates).Error; err != nil {
+		return err
+	}
+
+	for _, v := range rates {
+		e.Rates[v.CurrencyCode] = decimal.NewFromInt(1).Div(v.UsdExchangeRate)
+	}
+
+	log.Infof("[Success] Update exchange rates: %v", e.Rates)
+
+	return nil
+}
+
+func NewExchangeRates(db *gorm.DB) {
+	r = &exchangeRates{
+		Rates: make(map[Currency]decimal.Decimal),
+	}
+	r.UpdateRates(db)
+
+	go func(db *gorm.DB) {
+		t := time.NewTicker(time.Minute * 10)
+		for {
+			<-t.C
+			if err := r.UpdateRates(db); err != nil {
+				continue
+			}
+		}
+	}(db)
 }
 
 // Money 货币
@@ -150,58 +185,20 @@ func toCurrency(in Money, to Currency) Money {
 
 // GetRate 获取汇率，不存在获取默认汇率
 func GetRate(currency Currency) decimal.Decimal {
-	// 获取系统汇率
-	rate, ok := r.base[currency]
-	if !ok {
-		rateMap, err := r.fn()
-		if err != nil {
-			// 获取默认汇率
-			return r.defaultRates[currency]
-		}
+	r.mu.RLock()
+	defer r.mu.RUnlock()
 
-		for k, v := range rateMap {
-			r.base[k] = v
-		}
-
-		if baseRate, ok := r.base[currency]; !ok || baseRate == decimal.Zero {
-			return r.defaultRates[currency]
-		}
-
-		return r.base[currency]
+	if rate, ok := r.Rates[currency]; ok {
+		return rate
 	}
-	return rate
-}
-
-func Init(f func() (map[Currency]decimal.Decimal, error)) {
-	r.fn = f
-	rateMap, err := r.fn()
-	if err != nil {
-		log.Errorf("get rate err:%v", err)
-	} else {
-		r.base = rateMap
-	}
-
-	// 定时获取汇率
-	go func() {
-		t := time.NewTicker(time.Minute * 10)
-		for {
-			<-t.C
-			rateMap, err := r.fn()
-			if err != nil {
-				log.Errorf("get rate err:%v", err)
-				continue
-			}
-			r.base = rateMap
-		}
-	}()
+	return r.Rates[USD]
 }
 
 // 检查汇率是否存在
 func CheckRate(currency Currency) bool {
-	_, ok := r.defaultRates[currency]
-	if !ok {
-		_, ok = r.base[currency]
-		return ok
-	}
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+
+	_, ok := r.Rates[currency]
 	return ok
 }
