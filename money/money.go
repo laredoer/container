@@ -61,6 +61,36 @@ func NewExchangeRates(db *gorm.DB) {
 	}(db)
 }
 
+// only for test
+func NewTestExchangeRates(testRates map[Currency]decimal.Decimal) {
+	r = &exchangeRates{
+		Rates: map[Currency]decimal.Decimal{
+			AUD: decimal.NewFromFloat(1.50),
+			CAD: decimal.NewFromFloat(1.37),
+			CNY: decimal.NewFromFloat(7.31),
+			EUR: decimal.NewFromFloat(0.91),
+			GBP: decimal.NewFromFloat(0.77),
+			HKD: decimal.NewFromFloat(7.82),
+			IDR: decimal.NewFromFloat(16492.56),
+			INR: decimal.NewFromFloat(84.03),
+			JPY: decimal.NewFromFloat(157.29),
+			KRW: decimal.NewFromFloat(1400.83),
+			MYR: decimal.NewFromFloat(4.70),
+			PHP: decimal.NewFromFloat(59.64),
+			SGD: decimal.NewFromFloat(1.34),
+			THB: decimal.NewFromFloat(36.35),
+			USD: decimal.NewFromFloat(1),
+			VND: decimal.NewFromFloat(25479.39),
+		},
+	}
+
+	for k, v := range testRates {
+		r.Rates[k] = v
+	}
+
+	log.Warnf("Test [Success] Update exchange rates: %v", r.Rates)
+}
+
 // Money 货币
 type Money struct {
 	Value    decimal.Decimal `json:"value"`
