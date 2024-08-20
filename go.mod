@@ -1,6 +1,6 @@
 module github.com/wule61/container
 
-go 1.21
+go 1.23
 
 replace github.com/nsqio/go-nsq => git.5th.im/long-bridge-core-system/go-nsq v0.0.0-20191217064637-defecf8a7548
 
