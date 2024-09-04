@@ -2,7 +2,6 @@ package container
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/micro/go-micro/metadata"
 	"go.temporal.io/sdk/converter"
@@ -35,7 +34,7 @@ func newContextPropagator() workflow.ContextPropagator {
 func (s *propagator) Inject(ctx context.Context, writer workflow.HeaderWriter) error {
 	md, ok := metadata.FromContext(ctx)
 	if !ok {
-		return fmt.Errorf("unable to extract metadata from context")
+		md = metadata.Metadata{}
 	}
 
 	payload, err := converter.GetDefaultDataConverter().ToPayload(md)
@@ -98,4 +97,26 @@ func (s *propagator) ExtractToWorkflow(ctx workflow.Context, reader workflow.Hea
 		ctx = workflow.WithValue(ctx, PropagateKey, values)
 	}
 	return ctx, nil
+}
+
+// NewWorkflowContext 创建新的 workflow context
+func NewWorkflowContext(ctx workflow.Context, metaData metadata.Metadata) workflow.Context {
+	// 获取现有的元数据
+	existingMeta := ctx.Value(PropagateKey).(metadata.Metadata)
+
+	// 创建新的元数据
+	newMeta := metadata.Metadata{}
+
+	// 将现有的元数据添加到新的元数据中
+	for k, v := range existingMeta {
+		newMeta[k] = v
+	}
+
+	// 将新的元数据添加到新的元数据中
+	for k, v := range metaData {
+		newMeta[k] = v
+	}
+
+	// 创建新的 context，包含修改后的元数据
+	return workflow.WithValue(ctx, PropagateKey, newMeta)
 }
